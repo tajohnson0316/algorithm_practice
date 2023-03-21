@@ -24,6 +24,10 @@ var pokémon = [
   { id: 148, name: "Dragonair", types: ["dragon"] },
 ];
 
+/*
+console.log the pokemon objects whose ID is evenly divisible by 3
+*/
+
 for (var i = 0; i < pokémon.length; i++) {
   if (pokémon[i].id % 3 === 0) {
     console.log(pokémon[i]);
@@ -31,6 +35,9 @@ for (var i = 0; i < pokémon.length; i++) {
 }
 console.log("\n");
 
+/*
+console.log the pokémon objects that have more than one type
+*/
 
 for (var i = 0; i < pokémon.length; i++) {
   if (pokémon[i].types.length > 1) {
@@ -38,6 +45,11 @@ for (var i = 0; i < pokémon.length; i++) {
   }
 }
 console.log("\n");
+
+/*
+console.log the names of the pokémon whose only type is "poison"
+BONUS: console.log the reverse of the names of the pokémon whose only type is "poison"
+*/
 
 for (var i = 0; i < pokémon.length; i++) {
   if (pokémon[i].types.length === 1 && pokémon[i].types[0] === "poison") {
@@ -51,6 +63,9 @@ for (var i = 0; i < pokémon.length; i++) {
 }
 console.log("\n");
 
+/*
+console.log the first type of all the pokémon whose second type is "flying"
+*/
 for (var i = 0; i < pokémon.length; i++) {
   if (pokémon[i].types.length > 1 && pokémon[i].types[1] === "flying") {
     console.log(pokémon[i].types[0]);
