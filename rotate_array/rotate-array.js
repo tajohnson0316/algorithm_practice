@@ -16,7 +16,7 @@
   right).
 */
 
-function rotateArr(arr, offset) {
+function rotateString(arr, offset) {
   console.log("Original array: " + arr);
 
   //makes sure this loop does not run longer than it already is going to
@@ -44,4 +44,4 @@ function rotateArr(arr, offset) {
   console.log("Rotated array: " + arr);
 }
 
-rotateArr([1, 2, 3, 4, 5, 6], -4);
+rotateString([1, 2, 3, 4, 5, 6], -4);
