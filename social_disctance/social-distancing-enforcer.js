@@ -36,12 +36,16 @@ function socialDistancingEnforcer(queue) {
 
   for (let i = 0; i < queue.length; i++) {
     if (queue[i] == 0 && lineStarted) {
+      // if 0 and 1st person found
       count++;
     } else if (queue[i] == 1 && !lineStarted) {
+      // if 1st person found
       lineStarted = true;
     } else if (queue[i] == 1 && count < 6 && lineStarted) {
+      // if found person and count is < 6
       return false;
     } else if (lineStarted && queue[i] == 1) {
+      // reset if 1st person found and another person found
       count = 0;
     }
     continue;
