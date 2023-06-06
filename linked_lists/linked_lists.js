@@ -41,6 +41,75 @@ class SinglyLinkedList {
     this.head = null;
   }
 
+  // Day 2 ====================================================================
+  /**
+   * Creates a new node with the given data and inserts that node at the front
+   * of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @param {any} data The data for the new node.
+   * @returns {SinglyLinkedList} This list.
+   */
+  insertAtFront(data) {
+    const newNode = new ListNode(data);
+
+    if (this.isEmpty()) {
+      this.head = newNode;
+      return this;
+    }
+
+    newNode.next = this.head;
+    this.head = newNode;
+
+    return this;
+  }
+
+  /**
+   * Removes the first node of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @returns {any} The data from the removed node.
+   */
+  removeHead() {
+    if (this.isEmpty()) {
+      return this;
+    }
+
+    let newHead = this.head.next;
+    let oldHead = this.head;
+
+    oldHead.next = null;
+    this.head = newHead;
+
+    return this;
+  }
+
+  // EXTRA
+  /**
+   * Calculates the average of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @returns {number|NaN} The average of the node's data.
+   */
+  average() {
+    if (this.isEmpty()) {
+      return this;
+    }
+
+    let runner = this.head;
+    let sum = 0;
+    let count = 0;
+
+    while (runner) {
+      sum += runner.data;
+      runner = runner.next;
+      count++;
+    }
+
+    return sum / count;
+  }
+
+  // Day 1 ====================================================================
   /**
    * Determines if this list is empty.
    * - Time: O(?).
@@ -149,5 +218,8 @@ const sortedDupeList = new SinglyLinkedList().insertAtBackMany([
   1, 1, 1, 2, 3, 3, 4, 5, 5,
 ]);
 
+const insertAtFrontTest = singleNodeList.insertAtFront(3);
+// insertAtFrontTest.removeHead();
+
 // Print your list like so:
-console.log(sortedDupeList.toArr());
+console.log(secondThreeList.average());
