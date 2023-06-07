@@ -41,6 +41,104 @@ class SinglyLinkedList {
     this.head = null;
   }
 
+  // Day 3 ====================================================================
+  /**
+   * Removes the last node of this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @returns {any} The data from the node that was removed.
+   */
+  removeBack() {
+    if (this.isEmpty()) {
+      return null;
+    }
+
+    let runner = this.head;
+    let previous = this.head;
+
+    while (runner.next) {
+      previous = runner;
+      runner = runner.next;
+    }
+
+    const removedData = runner.data;
+    previous.next = null;
+    return removedData;
+  }
+
+  /**
+   * Determines whether or not the given search value exists in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} val The data to search for in the nodes of this list.
+   * @returns {boolean}
+   */
+  contains(val) {
+    if (this.isEmpty()) {
+      return false;
+    }
+
+    let runner = this.head;
+    while (runner) {
+      if (runner.data == val) {
+        return true;
+      }
+      runner = runner.next;
+    }
+    return false;
+  }
+
+  /**
+   * Determines whether or not the given search value exists in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} val The data to search for in the nodes of this list.
+   * @param {?ListNode} current The current node during the traversal of this list
+   *    or null when the end of the list has been reached.
+   * @returns {boolean}
+   */
+  containsRecursive(val, current = this.head) {
+    // BASE CASE / EXIT CASE
+    if (current == null) {
+      return false;
+    }
+
+    if (current.data == val) {
+      return true;
+    }
+
+    // FORWARD MOTION
+    // RECURSIVE CALL
+    return this.containsRecursive(val, current.next);
+  }
+
+  // EXTRA
+  /**
+   * Recursively finds the maximum integer data of the nodes in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {ListNode} runner The start or current node during traversal, or null
+   *    when the end of the list is reached.
+   * @param {ListNode} maxNode Keeps track of the node that contains the current
+   *    max integer as it's data.
+   * @returns {?number} The max int or null if none.
+   */
+  recursiveMax(runner = this.head, maxNode = this.head) {
+    if (this.isEmpty()) {
+      return null;
+    }
+
+    if (runner == null) {
+      return maxNode.data;
+    }
+
+    if (runner.data > maxNode.data) {
+      maxNode = runner;
+    }
+
+    return this.recursiveMax(runner.next, maxNode);
+  }
+
   // Day 2 ====================================================================
   /**
    * Creates a new node with the given data and inserts that node at the front
@@ -72,7 +170,7 @@ class SinglyLinkedList {
    */
   removeHead() {
     if (this.isEmpty()) {
-      return this;
+      return null;
     }
 
     let newHead = this.head.next;
@@ -81,7 +179,7 @@ class SinglyLinkedList {
     oldHead.next = null;
     this.head = newHead;
 
-    return this;
+    return oldHead.data;
   }
 
   // EXTRA
@@ -93,7 +191,7 @@ class SinglyLinkedList {
    */
   average() {
     if (this.isEmpty()) {
-      return this;
+      return NaN;
     }
 
     let runner = this.head;
@@ -133,17 +231,19 @@ class SinglyLinkedList {
 
     if (this.isEmpty()) {
       this.head = newNode;
-    } else {
-      let runner = this.head;
-      while (runner) {
-        if (runner.next) {
-          runner = runner.next;
-        } else {
-          runner.next = newNode;
-          break;
-        }
+      return this;
+    }
+
+    let runner = this.head;
+    while (runner) {
+      if (runner.next) {
+        runner = runner.next;
+      } else {
+        runner.next = newNode;
+        break;
       }
     }
+
     return this;
   }
 
@@ -157,7 +257,15 @@ class SinglyLinkedList {
    *    or null when the end of the list has been reached.
    * @returns {SinglyLinkedList} This list.
    */
-  insertAtBackRecursive(data, runner = this.head) {}
+  insertAtBackRecursive(data, runner = this.head) {
+    if (runner == null) {
+      const newNode = new ListNode(data);
+      runner = newNode;
+      return this;
+    }
+
+    return this.insertAtBackRecursive(data, runner.next);
+  }
 
   /**
    * Calls insertAtBack on each item of the given array.
@@ -218,8 +326,8 @@ const sortedDupeList = new SinglyLinkedList().insertAtBackMany([
   1, 1, 1, 2, 3, 3, 4, 5, 5,
 ]);
 
-const insertAtFrontTest = singleNodeList.insertAtFront(3);
-// insertAtFrontTest.removeHead();
+const insertAtFrontTest = secondThreeList.insertAtFront(3);
+insertAtFrontTest.removeHead();
 
 // Print your list like so:
-console.log(secondThreeList.average());
+console.log(secondThreeList.insertAtBackRecursive(7).toArr());
