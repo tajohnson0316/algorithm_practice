@@ -41,6 +41,177 @@ class SinglyLinkedList {
     this.head = null;
   }
 
+  // Day 5 ====================================================================
+  /**
+   * Concatenates the nodes of a given list onto the back of this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {SinglyLinkedList} addList An instance of a different list whose
+   *    whose nodes will be added to the back of this list.
+   * @returns {SinglyLinkedList} This list with the added nodes.
+   */
+  concat(addList) {
+    if (this.isEmpty()) {
+      this.head = addList.head;
+      return this;
+    }
+
+    let runner = this.head;
+    while (runner.next) {
+      runner = runner.next;
+    }
+    runner.next = addList.head;
+
+    return this;
+  }
+
+  /**
+   * Finds the node with the smallest data and moves that node to the front of
+   * this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @returns {SinglyLinkedList} This list.
+   */
+  moveMinToFront() {
+    if (this.isEmpty()) {
+      return null;
+    }
+
+    let runner = this.head;
+    let minNode = this.head;
+
+    while (runner.next) {
+      runner = runner.next;
+
+      if (runner.data < minNode.data) {
+        minNode = runner;
+      }
+    }
+
+    if (this.head.data == minNode.data) {
+      return this;
+    }
+
+    let previous = this.head;
+    while (previous.next != minNode) {
+      previous = previous.next;
+    }
+
+    previous.next = minNode.next;
+    minNode.next = this.head;
+    this.head = minNode;
+
+    return this;
+  }
+
+  // EXTRA
+  /**
+   * Splits this list into two lists where the 2nd list starts with the node
+   * that has the given value.
+   * splitOnVal(5) for the list (1=>3=>5=>2=>4) will change list to (1=>3)
+   * and the return value will be a new list containing (5=>2=>4)
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} val The value in the node that the list should be split on.
+   * @returns {SinglyLinkedList} The split list containing the nodes that are
+   *    no longer in this list.
+   */
+  splitOnVal(val) {}
+
+  // Day 4 ====================================================================
+  /**
+   * Retrieves the data of the second to last node in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @returns {any} The data of the second to last node or null if there is no
+   *    second to last node.
+   */
+  secondToLast() {
+    if (this.isEmpty() || !this.head.next) {
+      return null;
+    }
+
+    let runner = this.head;
+    let previous = this.head;
+
+    while (runner.next) {
+      previous = runner;
+      runner = runner.next;
+    }
+
+    return previous.data;
+  }
+
+  /**
+   * Removes the node that has the matching given val as it's data.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} val The value to compare to the node's data to find the
+   *    node to be removed.
+   * @returns {boolean} Indicates if a node was removed or not.
+   */
+  removeVal(val) {
+    if (this.isEmpty()) {
+      return false;
+    } else if (this.head.data == val) {
+      this.removeHead();
+      return true;
+    }
+
+    let runner = this.head;
+    let previous = this.head;
+
+    while (runner.next) {
+      previous = runner;
+      runner = runner.next;
+
+      if (runner.data == val) {
+        previous.next = runner.next;
+        runner = null;
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // EXTRA
+  /**
+   * Inserts a new node before a node that has the given value as its data.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} newVal The value to use for the new node that is being added.
+   * @param {any} targetVal The value to use to find the node that the newVal
+   *    should be inserted in front of.
+   * @returns {boolean} To indicate whether the node was pre-pended or not.
+   */
+  prepend(newVal, targetVal) {
+    if (this.isEmpty()) {
+      return false;
+    } else if (this.head.data == targetVal) {
+      const newNode = new ListNode(newVal);
+      newNode.next = this.head;
+      this.head = newNode;
+      return true;
+    }
+
+    let runner = this.head;
+    let previous = this.head;
+
+    while (runner) {
+      previous = runner;
+      runner = runner.next;
+      if (runner.data == targetVal) {
+        const newNode = new ListNode(newVal);
+        previous.next = newNode;
+        newNode.next = runner;
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   // Day 3 ====================================================================
   /**
    * Removes the last node of this list.
@@ -330,4 +501,5 @@ const insertAtFrontTest = secondThreeList.insertAtFront(3);
 insertAtFrontTest.removeHead();
 
 // Print your list like so:
-console.log(secondThreeList.insertAtBackRecursive(7).toArr());
+console.log(unorderedList.toArr());
+console.log(unorderedList.moveMinToFront().toArr());
