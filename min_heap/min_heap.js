@@ -18,6 +18,62 @@ class MinHeap {
   }
 
   /**
+   * Retrieves the size of the heap, ignoring the null placeholder.
+   * - Time: O(1) constant.
+   * - Space: O(1) constant.
+   * @returns {number}
+   */
+  size() {
+    // - 1 since 0 index is unused
+    return this.heap.length - 1;
+  }
+
+  /**
+   * Extracts the min num from the heap and then re-orders the heap to
+   * maintain order so the next min is ready to be extracted.
+   * 1. Save the first node to a temp var.
+   * 2. Pop last node off and overwrite idx1 with it.
+   * 3. Iteratively swap the old last node that is now at idx1 with it's
+   *    smallest child IF the smallest child is smaller than it.
+   * - Time: O(log n) logarithmic due to shiftDown.
+   * - Space: O(1) constant.
+   * @returns {?number} The min number or null if empty.
+   */
+  extract() {
+    if (this.size() == 0) {
+      return null;
+    }
+
+    let minValue = this.top();
+    let replacement = this.heap[this.size()];
+    this.heap[1] = replacement;
+    this.heap[this.size()] = minValue;
+    let minNum = this.heap.pop();
+
+    let replacementIdx = 1;
+    let swapIdx = this.minLeftOrRight(replacementIdx);
+
+    while (this.heap[replacementIdx] > this.heap[swapIdx]) {
+      let temp = this.heap[replacementIdx];
+      this.heap[replacementIdx] = this.heap[swapIdx];
+      this.heap[swapIdx] = temp;
+
+      replacementIdx = swapIdx;
+      swapIdx = this.minLeftOrRight(replacementIdx);
+    }
+
+    return minNum;
+  }
+
+  minLeftOrRight(parentIdx) {
+    if (this.heap[parentIdx * 2] < this.heap[parentIdx * 2 + 1]) {
+      return parentIdx * 2;
+    }
+
+    return parentIdx * 2 + 1;
+  }
+
+  /**
    * Retrieves the top (minimum number) in the heap without removing it.
    * - Time: O(1) constant.
    * - Space: O(1) constant.
@@ -84,4 +140,8 @@ class MinHeap {
 let testHeap = new MinHeap();
 testHeap.insert(1).insert(10).insert(5).insert(15).insert(8);
 testHeap.insert(0);
+// testHeap.printHorizontalTree();
+
+testHeap.extract();
+console.log(testHeap.heap);
 testHeap.printHorizontalTree();
