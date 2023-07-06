@@ -48,7 +48,7 @@ class MinHeap {
     let replacement = this.heap[this.size()];
     this.heap[1] = replacement;
     this.heap[this.size()] = minValue;
-    let minNum = this.heap.pop();
+    this.heap.pop();
 
     let replacementIdx = 1;
     let swapIdx = this.minLeftOrRight(replacementIdx);
@@ -62,7 +62,7 @@ class MinHeap {
       swapIdx = this.minLeftOrRight(replacementIdx);
     }
 
-    return minNum;
+    return minValue;
   }
 
   minLeftOrRight(parentIdx) {
